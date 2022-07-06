@@ -1,0 +1,16 @@
+name: Actions
+
+on: [push]
+
+jobs:
+  run-github-actions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: simple javascript Actions
+        id: greet
+        uses: actions/hello-world-javascript-action@v1
+        with:
+          who-to-greet: Mahesh Nagmal
+      - name: Log Greetings Time
+        run: echo "${{ steps.greet.outputs.time }}"
+        
