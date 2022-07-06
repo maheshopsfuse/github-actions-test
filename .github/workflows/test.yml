@@ -1,0 +1,15 @@
+name: SSH Test
+
+on: push
+
+jobs:
+  run-shell-command:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run a command remotely
+        uses: docker://evaneos/ssh-action:0.1.0
+        with:
+          hosts: 35.202.167.42
+          user: eladmin7302021
+          private_key: ${{ secrets.PRIVATE_SSH_KEY }}
+          commands: echo "Hello world!"
