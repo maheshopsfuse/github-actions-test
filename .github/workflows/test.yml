@@ -8,7 +8,7 @@ jobs:
     steps:
       - name: Run a command remotely
         run: |
-          echo "${{ secrets.PRIVATE_SSH_KEY }}" | tr -d '\r' > key.pem
+          echo "${{ secrets.PRIVATE_SSH_KEY }}" > key.pem
           chmod 400 key.pem
           ssh -i key.pem eladmin7302021@35.202.167.42
           pwd
