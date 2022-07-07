@@ -40,4 +40,4 @@ jobs:
           ls $HOME/secrets/
           cat $HOME/secrets/el-dev-vm2.key
       - name: Run ssh
-        run: ssh -tt -i $HOME/secrets/el-dev-vm2.pem eladmin7302021@35.202.167.42
+        run: ssh -tt -o StrictHostKeyChecking=no -i $HOME/secrets/el-dev-vm2.pem eladmin7302021@35.202.167.42
