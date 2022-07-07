@@ -1,17 +1,4 @@
-# name: SSH Test
-
-# on: push
-
-# jobs:
-#   run-shell-command:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Run a command remotely
-#         run: |
-#           echo "${{ secrets.PRIVATE_SSH_KEY }}" > key.pem
-#           chmod 400 key.pem
-#           ssh -i key.pem eladmin7302021@35.202.167.42
-name: Workflows with large secrets
+name: Deploy to Dev
 
 on: push
 
@@ -20,24 +7,12 @@ jobs:
     name: My Job
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: Decrypt large secret
-        run: ./decrypt_secret.sh
-        env:
-          LARGE_SECRET_PASSPHRASE: ${{ secrets.LARGE_SECRET_PASSPHRASE }}
-      - name: Convert File to key.pem
-        run: |
-          cd ~/secrets
-          openssl rsa -in ./el-dev-vm2.key -text > el-dev-vm2.pem
-          cat el-dev-vm2.pem
       - name: multiple host
         uses: appleboy/ssh-action@master
         with:
           host: "35.202.167.42"
           username: eladmin7302021
-          key: $HOME/secrets/el-dev-vm2.pem
+          key: ${{ secrets.PRIVATE_SSH_KEY }}
           script: |
             whoami
             ls -al
-      # - name: Run ssh
-      #   run: ssh -i $HOME/secrets/el-dev-vm2.pem eladmin7302021@35.202.167.42
