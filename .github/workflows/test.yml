@@ -4,10 +4,10 @@ on: push
 
 jobs:
   my-job:
-    name: My Job
+    name: Connect Server
     runs-on: ubuntu-latest
     steps:
-      - name: multiple host
+      - name: Host
         uses: appleboy/ssh-action@master
         with:
           host: "35.202.167.42"
