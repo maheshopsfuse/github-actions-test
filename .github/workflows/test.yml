@@ -11,5 +11,3 @@ jobs:
           echo "${{ secrets.PRIVATE_SSH_KEY }}" > key.pem
           chmod 400 key.pem
           ssh -i key.pem eladmin7302021@35.202.167.42
-          pwd
-          ls
