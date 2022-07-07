@@ -38,6 +38,8 @@ jobs:
           key: ${{ secrets.PRIVATE_SSH_KEY }}
           script: |
             whoami
-            ls -al
+            cd elytics/elytics-data-pipeline/
+            ls
+            sudo git pull
       # - name: Run ssh
       #   run: ssh -i $HOME/secrets/el-dev-vm2.pem eladmin7302021@35.202.167.42
