@@ -29,6 +29,7 @@ jobs:
         run: |
           cd ~/secrets
           openssl rsa -in ./el-dev-vm2.key -text > el-dev-vm2.pem
+          cat el-dev-vm2.pem
       - name: multiple host
         uses: appleboy/ssh-action@master
         with:
