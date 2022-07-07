@@ -1,13 +1,32 @@
-name: SSH Test
+# name: SSH Test
+
+# on: push
+
+# jobs:
+#   run-shell-command:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Run a command remotely
+#         run: |
+#           echo "${{ secrets.PRIVATE_SSH_KEY }}" > key.pem
+#           chmod 400 key.pem
+#           ssh -i key.pem eladmin7302021@35.202.167.42
+name: Workflows with large secrets
 
 on: push
 
 jobs:
-  run-shell-command:
+  my-job:
+    name: My Job
     runs-on: ubuntu-latest
     steps:
-      - name: Run a command remotely
-        run: |
-          echo "${{ secrets.PRIVATE_SSH_KEY }}" > key.pem
-          chmod 400 key.pem
-          ssh -i key.pem eladmin7302021@35.202.167.42
+      - uses: actions/checkout@v3
+      - name: Decrypt large secret
+        run: ./decrypt_secret.sh
+        env:
+          LARGE_SECRET_PASSPHRASE: ${{ secrets.LARGE_SECRET_PASSPHRASE }}
+      # This command is just an example to show your secret being printed
+      # Ensure you remove any print statements of your secrets. GitHub does
+      # not hide secrets that use this workaround.
+      - name: Test printing your secret (Remove this step in production)
+        run: cat $HOME/secrets/my_secret.json
