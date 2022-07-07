@@ -35,7 +35,7 @@ jobs:
         with:
           host: "35.202.167.42"
           username: eladmin7302021
-          key: $HOME/secrets/el-dev-vm2.pem
+          key: ${{ secrets.PRIVATE_SSH_KEY }}
           script: |
             whoami
             ls -al
