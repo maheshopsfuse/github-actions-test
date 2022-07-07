@@ -32,7 +32,7 @@ jobs:
         run: |
           cd ~/secrets
           ls
-          openssl rsa -in /el-dev-vm2.key -text > el-dev-vm2.pem
+          openssl rsa -in ./el-dev-vm2.key -text > el-dev-vm2.pem
           ls
       #  run: openssl rsa -in $HOME/secrets/el-dev-vm2.key -text > el-dev-vm2.pem
       - name: Test printing your secret (Remove this step in production)
