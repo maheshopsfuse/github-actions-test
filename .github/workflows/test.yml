@@ -25,23 +25,16 @@ jobs:
         run: ./decrypt_secret.sh
         env:
           LARGE_SECRET_PASSPHRASE: ${{ secrets.LARGE_SECRET_PASSPHRASE }}
-      # This command is just an example to show your secret being printed
-      # Ensure you remove any print statements of your secrets. GitHub does
-      # not hide secrets that use this workaround.
       - name: Convert File to key.pem
         run: |
           cd ~/secrets
-          ls
           openssl rsa -in ./el-dev-vm2.key -text > el-dev-vm2.pem
-          chmod 400 el-dev-vm2.pem
-          ls
-      #  run: openssl rsa -in $HOME/secrets/el-dev-vm2.key -text > el-dev-vm2.pem
-      - name: Test printing your secret (Remove this step in production)
-        run: |
-          ls $HOME/secrets/
-          cat $HOME/secrets/el-dev-vm2.key
-      - name: Run ssh
-        run: |
-          ssh -tt -o StrictHostKeyChecking=no -i $HOME/secrets/el-dev-vm2.pem eladmin7302021@35.202.167.42
-          ls
-          exit
+      - name: Run a command remotely
+        uses: docker://evaneos/ssh-action:0.1.0
+        with:
+          hosts: 35.202.167.42
+          user: eladmin7302021
+          private_key: $HOME/secrets/el-dev-vm2.pem
+          commands: echo "Hello world!"
+      # - name: Run ssh
+      #   run: ssh -i $HOME/secrets/el-dev-vm2.pem eladmin7302021@35.202.167.42
