@@ -6,4 +6,3 @@ mkdir $HOME/secrets
 # --yes to assume "yes" for questions
 gpg --quiet --batch --yes --decrypt --passphrase="$LARGE_SECRET_PASSPHRASE" \
 --output $HOME/secrets/el-dev-vm2.key el-dev-vm2.pem.gpg
-openssl rsa -in $HOME/secrets/el-dev-vm2.key -text > el-dev-vm2.pem
