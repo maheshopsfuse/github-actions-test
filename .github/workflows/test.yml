@@ -29,12 +29,14 @@ jobs:
         run: |
           cd ~/secrets
           openssl rsa -in ./el-dev-vm2.key -text > el-dev-vm2.pem
-      - name: Run a command remotely
-        uses: docker://evaneos/ssh-action:0.1.0
+      - name: multiple host
+        uses: appleboy/ssh-action@master
         with:
-          hosts: 35.202.167.42
-          user: eladmin7302021
-          private_key: $HOME/secrets/el-dev-vm2.pem
-          commands: echo "Hello world!"
+          host: "35.202.167.42"
+          username: eladmin7302021
+          key: $HOME/secrets/el-dev-vm2.pem
+          script: |
+            whoami
+            ls -al
       # - name: Run ssh
       #   run: ssh -i $HOME/secrets/el-dev-vm2.pem eladmin7302021@35.202.167.42
