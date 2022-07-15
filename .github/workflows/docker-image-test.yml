@@ -19,4 +19,4 @@ jobs:
     - name: Run Docker image
       run: docker run my-image-name:latest
     - name: Test Image
-      run: docker ps
+      run: docker exec -it my-image-name ls
