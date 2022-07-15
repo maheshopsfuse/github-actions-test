@@ -17,4 +17,4 @@ jobs:
     - name: Build the Docker image
       run: docker build . --file BaseDockerfile --tag my-image-name
     - name: Test Image
-      run: docker exec -it my-image-name ls
+      run: docker ps
