@@ -6,15 +6,14 @@ on:
       server:
         description: 'prod/dev'
         default: 'dev'
-        required: true
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
     - name: Dev
-    - if: ${{ github.event.inputs.server }} == 'dev'
+      if: ${{ github.event.inputs.server }} == 'dev'
       run: echo "Hello ${{ github.event.inputs.server }}"
     - name: Prod
-    - if: ${{ github.event.inputs.server }} == 'prod'
+      if: ${{ github.event.inputs.server }} == 'prod'
       run: echo "Hello ${{ github.event.inputs.server }}"
     
