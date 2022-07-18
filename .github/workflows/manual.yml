@@ -11,9 +11,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Dev
-      if: ${{ github.event.inputs.server }} == 'dev'
-      run: echo "Hello ${{ github.event.inputs.server }}"
+      if: ${{ github.event.inputs.server == 'dev' }} 
+      run: |
+        echo "Hello ${{ github.event.inputs.server }}"
     - name: Prod
-      if: ${{ github.event.inputs.server }} == 'prod'
-      run: echo "Hello ${{ github.event.inputs.server }}"
+      if: ${{ github.event.inputs.server == 'prod' }} 
+      run: |
+        echo "Hello ${{ github.event.inputs.server }}"
     
