@@ -1,0 +1,22 @@
+name: Manual Input workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      server:
+        description: 'prod/dev'
+        default: 'dev'
+        required: true
+env:
+  SERVER: ${{ github.event.inputs.server }}
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Dev
+      if: $SERVER == 'dev'
+      run: echo "Hello ${{ github.event.inputs.server }}"
+    - name: Prod
+      if: $SERVER == 'prod'
+      run: echo "Hello ${{ github.event.inputs.server }}"
+    
