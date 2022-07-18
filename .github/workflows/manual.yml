@@ -9,13 +9,51 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      GCP_IMAGE_TAG: gcr.io/${{ secrets.GCP_PROJECT_ID }}
     steps:
-    - name: Dev
+    - name: Dev - BaseDockerFile
       if: ${{ github.event.inputs.server == 'dev' }} 
       run: |
-        echo "Hello ${{ github.event.inputs.server }}"
-    - name: Prod
+        docker build -t $GCP_IMAGE_TAG/elytics -f BaseDockerfile --build-arg ELYTICS_ENV="dev" --build-arg CONFIG_FILE="config-dev.json" .
+    - name: Prod - BaseDockerFile
       if: ${{ github.event.inputs.server == 'prod' }} 
       run: |
-        echo "Hello ${{ github.event.inputs.server }}"
+        docker build -t $GCP_IMAGE_TAG/elytics -f BaseDockerfile --build-arg ELYTICS_ENV="prod" --build-arg CONFIG_FILE="config-prod.json" .
+    - name: Build Docker Images
+      run: |
+        docker build -t $GCP_IMAGE_TAG/elytics-app -f app-dockerfile .
+        docker build -t $GCP_IMAGE_TAG/etl-email-reader -f email_reader_dockerfile .
+        docker build -t $GCP_IMAGE_TAG/etl-email-parser -f email_parser_dockerfile .
+        docker build -t $GCP_IMAGE_TAG/etl-keyword-aggregator -f keyword_aggregator_dockerfile .
+        docker build -t $GCP_IMAGE_TAG/etl-content-processor -f email_content_processor_dockerfile .
+        docker build -t $GCP_IMAGE_TAG/etl-assets-processor -f email_assets_processor_dockerfile .
+        docker build -t $GCP_IMAGE_TAG/etl-keyword-processor -f email_keyword_processor_dockerfile .
+        docker build -t $GCP_IMAGE_TAG/etl-brand-aggregator -f brand_aggregator_dockerfile .
+        docker build -t $GCP_IMAGE_TAG/etl-trial-campaign-processor -f email_trial_campaign_processor_dockerfile .
+    - name: GCP Login
+      run: |
+        echo "GCP Login"
+    - name: Push Images to GCP
+      run: |
+        docker push $GCP_IMAGE_TAG/elytics
+        docker push $GCP_IMAGE_TAG/elytics-app
+        docker push $GCP_IMAGE_TAG/etl-email-reader
+        docker push $GCP_IMAGE_TAG/etl-email-parser
+        docker push $GCP_IMAGE_TAG/etl-keyword-aggregator
+        docker push $GCP_IMAGE_TAG/etl-content-processor
+        docker push $GCP_IMAGE_TAG/etl-assets-processor
+        docker push $GCP_IMAGE_TAG/etl-keyword-processor
+        docker push $GCP_IMAGE_TAG/etl-brand-aggregator
+        docker push $GCP_IMAGE_TAG/etl-trial-campaign-processor
+    - name: Login to Dev Server
+      if: ${{ github.event.inputs.server == 'dev' }} 
+      run: |
+        echo "Dev"
+    - name: Login to Prod Server
+      if: ${{ github.event.inputs.server == 'prod' }} 
+      run: |
+        echo "Prod"
+    
+
     
